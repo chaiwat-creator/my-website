@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบ AutoCAD ฉบับเต็ม 80 ข้อ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans Thai', sans-serif; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar for better appearance */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="bg-white rounded-3xl shadow-2xl max-w-3xl w-full p-6 md:p-12 fade-in">
+        <!-- Start Screen -->
+        <div id="start-screen" class="text-center space-y-6 py-10">
+            <div class="inline-block p-5 bg-indigo-50 rounded-full mb-4 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800">แบบทดสอบ AutoCAD <br/><span class="text-indigo-600">ฉบับเต็ม 80 ข้อ</span></h1>
+            <p class="text-slate-500 text-lg max-w-lg mx-auto leading-relaxed">บททดสอบที่ครอบคลุมทุกหมวดหมู่การใช้งานโปรแกรม AutoCAD ตั้งแต่ระดับพื้นฐานไปจนถึงทริคขั้นสูง</p>
+            <div class="pt-6">
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold py-4 px-10 rounded-full transition duration-300 shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-1">
+                    🚀 เริ่มทำแบบทดสอบ
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden space-y-6">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                <div class="flex flex-col">
+                    <span id="question-tracker" class="text-sm font-bold text-indigo-600 tracking-wide uppercase mb-1">ข้อที่ 1 / 80</span>
+                    <div class="w-full bg-slate-200 rounded-full h-1.5 w-32 md:w-48">
+                        <div id="progress-bar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 1.25%"></div>
+                    </div>
+                </div>
+                <div class="bg-slate-100 px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-sm font-semibold text-slate-500 mr-1">คะแนน:</span>
+                    <span id="score-tracker" class="text-lg font-bold text-slate-800">0</span>
+                </div>
+            </div>
+            
+            <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-slate-800 leading-relaxed min-h-[4rem]">คำถาม?</h2>
+            
+            <div id="options-container" class="space-y-3 mt-8">
+                <!-- Options injected here -->
+            </div>
+
+            <div id="feedback-container" class="hidden p-5 rounded-xl mt-6 text-base font-medium border">
+                <!-- Feedback injected here -->
+            </div>
+
+            <div class="flex justify-end mt-8">
+                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-8 rounded-xl transition duration-300 shadow-md flex items-center">
+                    ข้อถัดไป
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden text-center space-y-8 py-10 fade-in">
+            <h2 class="text-4xl font-extrabold text-slate-800">สรุปผลคะแนน</h2>
+            
+            <div class="relative w-48 h-48 mx-auto">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-slate-100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path id="score-circle" class="text-indigo-600 transition-all duration-1000 ease-out" stroke-width="3" stroke-dasharray="0, 100" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span id="final-score" class="text-5xl font-black text-indigo-600">0</span>
+                    <span class="text-lg font-bold text-slate-400 border-t border-slate-200 mt-1 pt-1 w-16 text-center">80</span>
+                </div>
+            </div>
+            
+            <div class="bg-indigo-50 rounded-2xl p-6 max-w-md mx-auto">
+                <p id="result-message" class="text-xl font-semibold text-indigo-900 mb-2"></p>
+                <p id="result-submessage" class="text-indigo-600"></p>
+            </div>
+            
+            <div class="pt-4">
+                <button onclick="resetQuiz()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-4 px-10 rounded-full transition duration-300 shadow-lg flex items-center justify-center mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    ทดสอบใหม่อีกครั้ง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลข้อสอบ 80 ข้อ (Index 0 คือคำตอบที่ถูกต้องเสมอ ระบบจะนำไปสลับตำแหน่งเอง)
+        const quizData = [
+            // ส่วนที่ 1: ความรู้ทั่วไปและการจัดการไฟล์ (1-10)
+            { question: "1. นามสกุลไฟล์มาตรฐานของชิ้นงานในโปรแกรม AutoCAD คืออะไร?", options: [".dwg", ".dwt", ".dxf", ".bak"], correctAnswer: 0, rationale: ".dwg (Drawing) เป็นนามสกุลไฟล์มาตรฐานหลักของโปรแกรม AutoCAD" },
+            { question: "2. คำสั่งใดใช้สำหรับสร้างไฟล์งานใหม่?", options: ["NEW", "OPEN", "SAVE", "EXPORT"], correctAnswer: 0, rationale: "คำสั่ง NEW (หรือ Ctrl+N) ใช้สำหรับสร้างไฟล์วาดแบบใหม่" },
+            { question: "3. พื้นที่ทำงานหลักที่ใช้สำหรับวาดแบบใน AutoCAD เรียกว่าอะไร?", options: ["Model Space", "Paper Space", "Layout Space", "Print Space"], correctAnswer: 0, rationale: "Model Space คือพื้นที่อนันต์สำหรับสร้างและวาดโมเดลตามขนาดจริง" },
+            { question: "4. แถบด้านล่างของหน้าจอที่ใช้สำหรับพิมพ์คำสั่งและดูสถานะของคำสั่งเรียกว่าอะไร?", options: ["Command Line", "Status Bar", "Ribbon", "Tool Palette"], correctAnswer: 0, rationale: "Command Line (บรรทัดคำสั่ง) เป็นหัวใจสำคัญในการป้อนคำสั่งลัดและดูขั้นตอนถัดไป" },
+            { question: "5. ปุ่ม F1 บนคีย์บอร์ดมีหน้าที่อะไรในโปรแกรม AutoCAD?", options: ["เปิดหน้าต่าง Help (ช่วยเหลือ)", "เปิด/ปิด การจับจุด (Osnap)", "ยกเลิกคำสั่ง", "บันทึกไฟล์"], correctAnswer: 0, rationale: "F1 เป็นปุ่มสากลสำหรับเรียกดู Help หรือคู่มือการใช้งาน" },
+            { question: "6. นามสกุลไฟล์ Template (แม่แบบ) ของ AutoCAD คืออะไร?", options: [".dwt", ".dwg", ".bak", ".pdf"], correctAnswer: 0, rationale: ".dwt (Drawing Template) ใช้เก็บบันทึกการตั้งค่าเริ่มต้นต่างๆ เพื่อนำมาเริ่มงานใหม่" },
+            { question: "7. หากต้องการบันทึกไฟล์งานเป็นชื่อใหม่ ต้องใช้คำสั่งใด?", options: ["SAVEAS", "SAVE", "QSAVE", "EXPORT"], correctAnswer: 0, rationale: "SAVEAS ใช้สำหรับบันทึกไฟล์แยกออกมาเป็นชื่อใหม่ โดยไฟล์เดิมยังคงอยู่" },
+            { question: "8. ระบบพิกัดในโปรแกรม AutoCAD ที่ผู้ใช้สามารถย้ายหรือกำหนดทิศทางเอง เรียกว่าอะไร?", options: ["UCS", "WCS", "XYZ", "CAD"], correctAnswer: 0, rationale: "UCS (User Coordinate System) คือระบบพิกัดที่ผู้ใช้สามารถปรับแต่งแกน X, Y, Z ได้เอง" },
+            { question: "9. จุดเริ่มต้นของพื้นที่ทำงาน ที่พิกัด (0,0) ใน AutoCAD เรียกว่าอะไร?", options: ["Origin", "Center Point", "Start Point", "Base Point"], correctAnswer: 0, rationale: "Origin คือจุดกำเนิดของระบบพิกัดทั้งหมด มีค่า x=0, y=0" },
+            { question: "10. ปุ่ม F2 บนคีย์บอร์ดมีหน้าที่อะไร?", options: ["เปิด/ปิด Text Window (ประวัติคำสั่ง)", "เปิดหน้าต่างแก้ไขข้อความ", "เปิด/ปิด Grid", "บันทึกไฟล์ชั่วคราว"], correctAnswer: 0, rationale: "F2 จะขยายหน้าต่าง Command line ให้เห็นประวัติคำสั่งยาวๆ ที่เคยพิมพ์ไปแล้ว (Text Window)" },
+            
+            // ส่วนที่ 2: คำสั่งวาดภาพพื้นฐาน - Draw (11-25)
+            { question: "11. คำสั่งใดใช้สำหรับลากเส้นตรง?", options: ["LINE", "PLINE", "SPLINE", "XLINE"], correctAnswer: 0, rationale: "LINE (L) คือคำสั่งพื้นฐานที่สุดสำหรับสร้างเส้นตรงทีละท่อน" },
+            { question: "12. คีย์ลัด (Shortcut) ของคำสั่ง Circle (สร้างวงกลม) คืออะไร?", options: ["C", "CI", "CR", "O"], correctAnswer: 0, rationale: "C คือตัวย่อของคำสั่ง Circle" },
+            { question: "13. คำสั่ง RECTANG ใช้สำหรับสร้างรูปทรงใด?", options: ["สี่เหลี่ยมผืนผ้า", "วงกลม", "สามเหลี่ยม", "หกเหลี่ยม"], correctAnswer: 0, rationale: "RECTANG (REC) สร้างรูปสี่เหลี่ยมผืนผ้าที่เป็น Polyline" },
+            { question: "14. คีย์ลัดของคำสั่ง Polygon (สร้างรูปหลายเหลี่ยม) คืออะไร?", options: ["POL", "PO", "P", "PLG"], correctAnswer: 0, rationale: "POL คือตัวย่อของคำสั่ง Polygon" },
+            { question: "15. คำสั่งใดใช้สร้างเส้นโค้ง?", options: ["ARC", "CURVE", "CIRCLE", "SPLINE"], correctAnswer: 0, rationale: "ARC (A) ใช้สร้างส่วนโค้งของวงกลม" },
+            { question: "16. ข้อใดคือความแตกต่างระหว่าง Line และ Polyline?", options: ["Line แต่ละเส้นแยกชิ้นกัน แต่ Polyline เป็นเส้นต่อเนื่องชิ้นเดียวกัน", "Line เปลี่ยนสีได้ แต่ Polyline เปลี่ยนไม่ได้", "Line วาดได้เฉพาะแนวนอน แต่ Polyline วาดได้ทุกแนว", "Line ใช้กับงาน 2D ส่วน Polyline ใช้กับงาน 3D"], correctAnswer: 0, rationale: "Polyline (PL) จะรวมเส้นทุกท่อนที่วาดต่อเนื่องกันให้เป็นวัตถุชิ้นเดียว (Object เดียว)" },
+            { question: "17. คีย์ลัดของคำสั่ง Ellipse (สร้างวงรี) คืออะไร?", options: ["EL", "E", "ELL", "EP"], correctAnswer: 0, rationale: "EL คือตัวย่อของคำสั่งสร้างวงรี (Ellipse)" },
+            { question: "18. คำสั่งใดใช้สร้างเส้นตรงขนานไปแบบไร้ที่สิ้นสุด (Infinite line) มักใช้ทำเส้นร่าง?", options: ["XLINE", "MLINE", "RAY", "PLINE"], correctAnswer: 0, rationale: "XLINE (XL) หรือ Construction Line คือเส้นที่ยาวไร้ขอบเขต ใช้สำหรับร่างแบบ" },
+            { question: "19. คำสั่งใดใช้สำหรับเติมลวดลายหรือแรเงาลงในพื้นที่ปิด?", options: ["HATCH", "FILL", "COLOR", "PAINT"], correctAnswer: 0, rationale: "HATCH (H) ใช้สร้างลวดลาย (Pattern) สีทึบ (Solid) หรือไล่สี (Gradient)" },
+            { question: "20. คีย์ลัดของคำสั่ง Hatch คืออะไร?", options: ["H", "HA", "HT", "HC"], correctAnswer: 0, rationale: "H คือตัวย่อของคำสั่ง Hatch" },
+            { question: "21. หากต้องการวาดเส้นโค้งอิสระ (Smooth curve) ที่ลากผ่านจุดต่างๆ ต้องใช้คำสั่งใด?", options: ["SPLINE", "ARC", "CURVE", "FREEHAND"], correctAnswer: 0, rationale: "SPLINE (SPL) สร้างเส้นโค้งสมูทที่คำนวณจากสมการทางคณิตศาสตร์" },
+            { question: "22. คำสั่งใดใช้สร้างจุด (Point)?", options: ["POINT (PO)", "DOT (D)", "NODE (N)", "SPOT (S)"], correctAnswer: 0, rationale: "POINT หรือตัวย่อ PO ใช้สร้างจุดมาร์คบนพื้นที่ทำงาน" },
+            { question: "23. คำสั่งใดใช้สร้างวงแหวน หรือวงกลมทึบ?", options: ["DONUT", "CIRCLE", "RING", "FILL"], correctAnswer: 0, rationale: "DONUT (DO) สร้างวงกลมซ้อนกัน 2 วงและถมดำตรงกลาง หรือถมดำทั้งหมดถ้าตั้งค่าวงในเป็น 0" },
+            { question: "24. รูปแบบลวดลาย (Pattern) เช่น ลายอิฐ หรือลายคอนกรีต อยู่ในคำสั่งใด?", options: ["HATCH", "GRADIENT", "BOUNDARY", "TEXTURE"], correctAnswer: 0, rationale: "หมวดหมู่ลวดลายวัสดุถูกเก็บอยู่ในคำสั่ง Hatch" },
+            { question: "25. คำสั่งใดใช้สร้างเส้นขอบเขตของพื้นที่ปิด (โดยสร้าง Polyline ขึ้นมาใหม่ตามขอบเขตที่คลิก)?", options: ["BOUNDARY", "REGION", "GROUP", "BLOCK"], correctAnswer: 0, rationale: "BOUNDARY (BO) จะวิเคราะห์พื้นที่ปิดรอบจุดที่คลิก แล้วสร้างเส้นขอบเขตใหม่ขึ้นมาทับรอยเดิม" },
+
+            // ส่วนที่ 3: คำสั่งแก้ไขวัตถุ - Modify (26-45)
+            { question: "26. คีย์ลัดของคำสั่ง Move (ย้ายตำแหน่งวัตถุ) คืออะไร?", options: ["M", "MO", "MV", "V"], correctAnswer: 0, rationale: "M คือตัวย่อของคำสั่ง Move" },
+            { question: "27. คีย์ลัดของคำสั่ง Copy (คัดลอกวัตถุ) คืออะไร?", options: ["CO หรือ CP", "C", "CY", "CC"], correctAnswer: 0, rationale: "คำสั่ง Copy สามารถใช้คีย์ลัด CO หรือ CP ได้ (ส่วน C เฉยๆ คือ Circle)" },
+            { question: "28. คำสั่งใดใช้หมุนวัตถุ?", options: ["ROTATE", "REVOLVE", "TURN", "SPIN"], correctAnswer: 0, rationale: "ROTATE (RO) ใช้หมุนวัตถุรอบจุดฐานที่กำหนด" },
+            { question: "29. คำสั่งใดใช้ย่อหรือขยายขนาดวัตถุตามสัดส่วนที่ระบุ?", options: ["SCALE", "STRETCH", "ZOOM", "RESIZE"], correctAnswer: 0, rationale: "SCALE (SC) ใช้เปลี่ยนขนาดวัตถุให้ใหญ่ขึ้นหรือเล็กลงตามตัวคูณ" },
+            { question: "30. คำสั่งใดใช้ 'ตัด' เส้นส่วนที่เกินจากจุดตัดทิ้งไป?", options: ["TRIM", "CUT", "DELETE", "ERASE"], correctAnswer: 0, rationale: "TRIM (TR) ใช้ตัดเส้นโดยอ้างอิงจากเส้นขอบ (Cutting edges)" },
+            { question: "31. คีย์ลัดของคำสั่ง Trim คืออะไร?", options: ["TR", "T", "TM", "TI"], correctAnswer: 0, rationale: "TR คือตัวย่อของคำสั่ง Trim" },
+            { question: "32. คำสั่งใดใช้ 'ต่อ' เส้นให้ยาวไปชนกับอีกวัตถุหนึ่ง?", options: ["EXTEND", "LENGTHEN", "STRETCH", "JOIN"], correctAnswer: 0, rationale: "EXTEND (EX) เป็นคำสั่งคู่ตรงข้ามกับ Trim ใช้ยืดเส้นไปชนขอบเขต" },
+            { question: "33. คำสั่งใดใช้ลบมุมวัตถุให้มีความ 'โค้งมน'?", options: ["FILLET", "CHAMFER", "BLEND", "SMOOTH"], correctAnswer: 0, rationale: "FILLET (F) ลบมุมแบบส่วนโค้ง (ต้องกำหนดค่า Radius)" },
+            { question: "34. คีย์ลัดของคำสั่ง Fillet คืออะไร?", options: ["F", "FI", "FL", "FE"], correctAnswer: 0, rationale: "F คือตัวย่อของคำสั่ง Fillet" },
+            { question: "35. คำสั่งใดใช้ตัดมุมวัตถุให้เป็นแนวเฉียง (เส้นตรง / ปาดมุม)?", options: ["CHAMFER", "FILLET", "SLICE", "CUT"], correctAnswer: 0, rationale: "CHAMFER (CHA) ลบมุมแบบเส้นตรง (ต้องกำหนดค่า Distance หรือ Angle)" },
+            { question: "36. คำสั่งใดใช้สร้างเส้นขนานของวัตถุที่มีระยะห่างออกไปเท่าๆ กัน?", options: ["OFFSET", "COPY", "ARRAY", "MIRROR"], correctAnswer: 0, rationale: "OFFSET (O) ใช้ก็อปปี้วัตถุออกไปเป็นคู่ขนาน เช่น วาดความหนาของกำแพง" },
+            { question: "37. คีย์ลัดของคำสั่ง Offset คืออะไร?", options: ["O", "OF", "OS", "FF"], correctAnswer: 0, rationale: "O คือตัวย่อของคำสั่ง Offset" },
+            { question: "38. คำสั่งใดใช้สร้างเงาสะท้อนของวัตถุแบบพลิกกลับด้าน (เหมือนส่องกระจก)?", options: ["MIRROR", "FLIP", "REVERSE", "REFLECT"], correctAnswer: 0, rationale: "MIRROR (MI) สร้างวัตถุฝั่งตรงข้ามโดยอ้างอิงจากแกนสมมาตร" },
+            { question: "39. คีย์ลัดของคำสั่ง Mirror คืออะไร?", options: ["MI", "M", "MR", "MM"], correctAnswer: 0, rationale: "MI คือตัวย่อของคำสั่ง Mirror" },
+            { question: "40. คำสั่งใดใช้คัดลอกวัตถุออกเป็นชุดๆ อย่างเป็นระเบียบ ทั้งแบบแถว-คอลัมน์ หรือแนววงกลม?", options: ["ARRAY", "GROUP", "PATTERN", "MULTIPLY"], correctAnswer: 0, rationale: "ARRAY (AR) มีรูปแบบ Rectangular (ตาราง), Polar (วงกลม) และ Path (ตามเส้นทาง)" },
+            { question: "41. คำสั่งใดใช้ 'ระเบิด' วัตถุที่รวมกันอยู่ (เช่น Block, Polyline, Rectangle) ให้แยกเป็นเส้นอิสระ?", options: ["EXPLODE", "BREAK", "DESTROY", "UNGROUP"], correctAnswer: 0, rationale: "EXPLODE (X) แตกคุณสมบัติการรวมกลุ่มของวัตถุ" },
+            { question: "42. คีย์ลัดของคำสั่ง Explode คืออะไร?", options: ["X", "EX", "E", "EP"], correctAnswer: 0, rationale: "X คือตัวย่อของคำสั่ง Explode" },
+            { question: "43. คำสั่งใดใช้ 'รวม' เส้นหลายเส้นที่ต่อกันอยู่ ให้กลายเป็นเส้นชิ้นเดียวกัน (ตรงข้ามกับ Explode)?", options: ["JOIN", "MERGE", "GROUP", "LINK"], correctAnswer: 0, rationale: "JOIN (J) เปลี่ยนเส้น Line ที่ปลายเป็นจุดเดียวกันให้กลายเป็น Polyline" },
+            { question: "44. คีย์ลัดของคำสั่ง Erase (ลบวัตถุ) คืออะไร?", options: ["E", "ER", "DEL", "D"], correctAnswer: 0, rationale: "E คือตัวย่อของคำสั่ง Erase (สามารถใช้ปุ่ม Delete บนคีย์บอร์ดแทนได้เช่นกัน)" },
+            { question: "45. การยืดหรือหด 'เฉพาะบางส่วน' ของวัตถุ โดยจุดอื่นยังอยู่ที่เดิม ต้องใช้คำสั่งใด?", options: ["STRETCH", "SCALE", "EXTEND", "LENGTHEN"], correctAnswer: 0, rationale: "STRETCH (S) ใช้ดึงยืดจุด (Vertex) ที่ถูกครอบด้วย Window Selection สีเขียว" },
+
+            // ส่วนที่ 4: เครื่องมือช่วยวาดและการเลือกวัตถุ (46-55)
+            { question: "46. Object Snap ชนิดใดใช้จับจุด 'กึ่งกลาง' ของเส้น (สัญลักษณ์รูปสามเหลี่ยม)?", options: ["Midpoint", "Endpoint", "Center", "Node"], correctAnswer: 0, rationale: "Midpoint คือจุดที่แบ่งครึ่งความยาวของเส้นพอดี" },
+            { question: "47. Object Snap ชนิดใดใช้จับจุด 'ปลายสุด' ของเส้น (สัญลักษณ์รูปสี่เหลี่ยมจัตุรัส)?", options: ["Endpoint", "Midpoint", "Quadrant", "Intersection"], correctAnswer: 0, rationale: "Endpoint คือจุดหัวและท้ายของเส้น" },
+            { question: "48. คีย์ลัด F3 ทำหน้าที่อะไร?", options: ["เปิด/ปิด การจับจุดวัตถุ (Osnap)", "เปิด/ปิด กริด (Grid)", "เปิด/ปิด การลากเส้นตั้งฉาก (Ortho)", "เปิด/ปิด Dynamic Input"], correctAnswer: 0, rationale: "F3 (Object Snap) คือตัวช่วยแม่เหล็กดึงเมาส์ไปติดจุดสำคัญๆ ของวัตถุ" },
+            { question: "49. คีย์ลัด F8 ทำหน้าที่อะไร?", options: ["เปิด/ปิด Ortho (บังคับเส้นตรงแนวนอน-แนวตั้ง)", "เปิด/ปิด Osnap", "เปิด/ปิด Polar Tracking", "พิมพ์งาน"], correctAnswer: 0, rationale: "F8 (Ortho Mode) ล็อคการเคลื่อนที่ของเคอร์เซอร์ให้อยู่ในแกน X และ Y (มุมฉาก) เท่านั้น" },
+            { question: "50. การเลือกวัตถุโดยลากเมาส์จาก 'ขวาไปซ้าย' (เกิดกรอบสีเขียว) เรียกว่าอะไรและมีคุณสมบัติอย่างไร?", options: ["Crossing Selection (วัตถุโดนกรอบเพียงนิดเดียวก็จะถูกเลือก)", "Window Selection (ต้องคลุมวัตถุมิดทั้งชิ้นถึงจะเลือก)", "Lasso Selection (เลือกวัตถุแบบอิสระ)", "Fence Selection (ลากเส้นพาดผ่านเพื่อเลือก)"], correctAnswer: 0, rationale: "กรอบสีเขียว (Crossing) ทะลุทะลวงสูง แค่โดนวัตถุนิดเดียวก็ถือว่าเลือกแล้ว" },
+            { question: "51. การเลือกวัตถุโดยลากเมาส์จาก 'ซ้ายไปขวา' (เกิดกรอบสีน้ำเงิน) เรียกว่าอะไรและมีคุณสมบัติอย่างไร?", options: ["Window Selection (ต้องคลุมวัตถุมิดทั้งชิ้นถึงจะถูกเลือก)", "Crossing Selection (วัตถุโดนกรอบเพียงนิดเดียวก็จะถูกเลือก)", "Lasso Selection (เลือกวัตถุแบบอิสระ)", "Fence Selection (ลากเส้นพาดผ่านเพื่อเลือก)"], correctAnswer: 0, rationale: "กรอบสีน้ำเงิน (Window) เข้มงวด วัตถุต้องอยู่ภายในกรอบทั้งหมด 100% ถึงจะถูกเลือก" },
+            { question: "52. ปุ่มใดบนคีย์บอร์ดที่ใช้สำหรับ 'ยกเลิก' หรือหลุดออกจากคำสั่งที่กำลังทำอยู่ (Cancel)?", options: ["Esc (Escape)", "Enter", "Spacebar", "Delete"], correctAnswer: 0, rationale: "Esc คือปุ่มสำหรับเคลียร์สถานะ ยกเลิกสิ่งที่ค้างอยู่" },
+            { question: "53. คำสั่ง Undo (ย้อนกลับการกระทำที่ผิดพลาด) สามารถใช้คีย์ลัดใดได้บ้าง?", options: ["Ctrl + Z หรือ U + Enter", "Ctrl + Y เท่านั้น", "Alt + Backspace", "U เท่านั้น"], correctAnswer: 0, rationale: "ใน AutoCAD สามารถกด U แล้ว Enter หรือใช้คีย์ลัดสากล Ctrl+Z ก็ได้" },
+            { question: "54. การเลื่อนมุมมองหน้าจอซ้าย-ขวา-บน-ล่าง โดยตัวชิ้นงานไม่ได้เปลี่ยนพิกัด (สัญลักษณ์รูปมือ) คือคำสั่งใด?", options: ["PAN", "ZOOM", "MOVE", "ORBIT"], correctAnswer: 0, rationale: "PAN (P หรือ กดลูกกลิ้งเมาส์ค้างไว้) คือการเลื่อนกระดาษ ไม่ใช่การย้ายวัตถุ" },
+            { question: "55. หากแบบหายไปจากหน้าจอ ต้องการแสดงวัตถุทั้งหมดที่มีให้พอดีจอ ต้องซูมแบบใด?", options: ["Zoom Extents", "Zoom In", "Zoom Window", "Zoom Previous"], correctAnswer: 0, rationale: "Zoom Extents (หรือดับเบิ้ลคลิกลูกกลิ้งเมาส์รัวๆ) จะหาขอบเขตวัตถุทั้งหมดมาโชว์กลางจอ" },
+
+            // ส่วนที่ 5: เลเยอร์, ตัวอักษร, ขนาด (56-65)
+            { question: "56. คำสั่งใดใช้สำหรับเปิดหน้าต่างจัดการชั้นงาน (Layer Properties Manager)?", options: ["LAYER (LA)", "LEVEL (LV)", "PROPERTIES (PR)", "SHEET (SH)"], correctAnswer: 0, rationale: "LAYER (LA) คือหัวใจของการจัดหมวดหมู่วัตถุในงานเขียนแบบ" },
+            { question: "57. สัญลักษณ์รูป 'กุญแจ' ในหน้า Layer มีหน้าที่อะไร?", options: ["ล็อคเลเยอร์ไม่ให้แก้ไข ย้าย หรือลบวัตถุได้", "ซ่อนเลเยอร์", "ป้องกันไม่ให้พิมพ์เลเยอร์นั้น", "เปลี่ยนสีเลเยอร์"], correctAnswer: 0, rationale: "Lock Layer วัตถุจะสีซีดลงเล็กน้อย ยังมองเห็น เอาเมาส์จับจุดได้ แต่แก้ไขหรือลบไม่ได้" },
+            { question: "58. ค่า Linetype ในการตั้งค่า Layer หมายถึงอะไร?", options: ["ชนิดของเส้น (เช่น เส้นทึบ, เส้นปะ, เส้นศูนย์กลาง)", "ความหนาของเส้น", "สีของเส้น", "ความโปร่งแสงของเส้น"], correctAnswer: 0, rationale: "Linetype ใช้กำหนดลวดลายของเส้น เช่น Continuous, Dashed, Center" },
+            { question: "59. คำสั่งใดใช้ 'คัดลอกคุณสมบัติ' (สี, เลเยอร์, ชนิดเส้น) จากวัตถุหนึ่งไปป้ายทับอีกวัตถุหนึ่ง?", options: ["MATCHPROP (MA)", "COPYPROP", "CLONE", "FORMAT"], correctAnswer: 0, rationale: "MATCHPROP เหมือนพู่กันวิเศษที่ดูดคุณสมบัติจากต้นฉบับไปทาให้เป้าหมาย" },
+            { question: "60. คีย์ลัดสำหรับสร้างข้อความแบบคล้ายโปรแกรมพิมพ์เอกสาร (Multiline Text) คืออะไร?", options: ["MTEXT (MT หรือ T)", "TX", "TEXT", "WORD"], correctAnswer: 0, rationale: "MTEXT (T) สร้างกล่องข้อความที่ตัดบรรทัดได้ จัดหน้าได้ (ยืดหยุ่นกว่า TEXT ธรรมดา)" },
+            { question: "61. คำสั่งใดใช้บอกขนาดความยาวใน 'แนวตั้ง' และ 'แนวนอน' ตรงๆ เท่านั้น?", options: ["DIMLINEAR (DLI)", "DIMALIGNED (DAL)", "DIMANGULAR (DAN)", "DIMRADIUS (DRA)"], correctAnswer: 0, rationale: "DIMLINEAR (DLI) วัดเฉพาะระยะห่างในแนวแกน X หรือ Y" },
+            { question: "62. คำสั่งใดใช้บอกขนาดความยาวของ 'เส้นเอียง' โดยดึงให้ขนานไปกับวัตถุนั้นๆ?", options: ["DIMALIGNED (DAL)", "DIMLINEAR (DLI)", "DIMANGULAR (DAN)", "DIMRADIUS (DRA)"], correctAnswer: 0, rationale: "DIMALIGNED (DAL) วัดระยะห่างตามความเอียงของจุดที่คลิก" },
+            { question: "63. คำสั่งใดใช้บอกขนาด 'รัศมี' ของส่วนโค้งหรือวงกลม?", options: ["DIMRADIUS (DRA)", "DIMDIAMETER (DDI)", "DIMANGULAR (DAN)", "DIMCENTER (DCE)"], correctAnswer: 0, rationale: "DIMRADIUS (DRA) บอกขนาดเป็นค่ารัศมี (R)" },
+            { question: "64. หน้าต่างตั้งค่ารูปแบบของเส้นบอกขนาด (Dimension Style Manager) เปิดด้วยคีย์ลัดใด?", options: ["D (DIMSTYLE)", "DS", "DIM", "DST"], correctAnswer: 0, rationale: "D คือคีย์ลัดสำหรับเข้าไปปรับแต่ง หัวลูกศร ขนาดตัวหนังสือ และเส้นบอกขนาด" },
+            { question: "65. คำสั่งใดใช้ 'วัดระยะทาง' ระหว่างจุด 2 จุด เพื่อดูข้อมูลเฉยๆ โดยไม่ได้สร้างเส้นบอกขนาดทิ้งไว้?", options: ["DISTANCE (DIST / DI)", "MEASURE (ME)", "LENGTH (LEN)", "SCALE (SC)"], correctAnswer: 0, rationale: "DI (Distance) ใช้เช็คระยะห่างชั่วคราว ข้อมูลจะโชว์บน Command Line" },
+
+            // ส่วนที่ 6: Block และการพิมพ์แบบ (66-70)
+            { question: "66. คำสั่งใดใช้สำหรับสร้างกลุ่มวัตถุให้แพ็ครวมเป็นชิ้นเดียวกัน (สร้างบล็อค)?", options: ["BLOCK (B)", "GROUP (G)", "UNITE (U)", "BIND (BD)"], correctAnswer: 0, rationale: "BLOCK (B) ช่วยมัดรวมวัตถุและมีจุดอ้างอิง (Base point) ทำให้ประหยัดขนาดไฟล์เมื่อนำไปใช้ซ้ำๆ" },
+            { question: "67. คำสั่งใดใช้สำหรับ 'แทรก' (Insert) บล็อคที่สร้างไว้ลงในพื้นที่ทำงาน?", options: ["INSERT (I)", "PASTE (P)", "IMPORT (IM)", "ATTACH (AT)"], correctAnswer: 0, rationale: "INSERT (I) เปิดหน้าต่างหรือพาเลตสำหรับเลือกบล็อคที่มีอยู่ในไฟล์มาวาง" },
+            { question: "68. คำสั่ง WBLOCK (Write Block) แตกต่างจาก BLOCK ปกติอย่างไร?", options: ["บันทึกวัตถุออกเป็นไฟล์ .dwg ต่างหาก เพื่อนำไปแชร์ให้ไฟล์อื่นใช้ได้", "บันทึกทับไฟล์เดิมทันที", "ใช้สร้างวัตถุ 3 มิติเท่านั้น", "ไม่สามารถระเบิด (Explode) ได้"], correctAnswer: 0, rationale: "WBLOCK จะเซฟชิ้นงานที่เลือก ออกไปเป็นไฟล์ Drawing ใหม่ภายนอก" },
+            { question: "69. กรอบสี่เหลี่ยมในหน้า Layout ที่ใช้ 'เจาะช่องมอง' เข้าไปยังพื้นที่ Model Space เรียกว่าอะไร?", options: ["Viewport", "Window Frame", "Camera", "Display Box"], correctAnswer: 0, rationale: "Viewport (หน้าต่างมองภาพ) ใช้สำหรับกำหนดสเกลและมุมมองตอนสั่งพิมพ์" },
+            { question: "70. คีย์ลัดใดใช้สำหรับเปิดหน้าต่างสั่งพิมพ์ (Plot / Print)?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + T", "Ctrl + O"], correctAnswer: 0, rationale: "Ctrl + P คือคีย์ลัดสากลสำหรับคำสั่ง Print (ใน CAD มักเรียกว่า Plot)" },
+
+            // ส่วนที่ 7: ทริคและคำสั่งระดับกลางเพิ่มเติม (71-80)
+            { question: "71. ในขณะที่กำลังลากครอบเลือกวัตถุหลายๆ ชิ้น หากต้องการ 'ยกเลิกการเลือก (Deselect)' วัตถุแค่บางชิ้น ต้องกดปุ่มใดค้างไว้แล้วคลิกที่วัตถุนั้น?", options: ["Shift", "Ctrl", "Alt", "Tab"], correctAnswer: 0, rationale: "การกด Shift ค้างไว้แล้วคลิกที่วัตถุที่ถูกเลือกอยู่ จะเป็นการถอดวัตถุนั้นออกจากการเลือก (Remove from selection set)" },
+            { question: "72. คำสั่งใดใช้สำหรับเปลี่ยน 'เลเยอร์ปัจจุบัน (Current Layer)' ให้กลายเป็นเลเยอร์เดียวกันกับวัตถุที่เราคลิกเลือกอย่างรวดเร็ว?", options: ["Make Current (LAYMCUR)", "Match Properties", "Change Layer", "Layer Isolate"], correctAnswer: 0, rationale: "Make Current (ปุ่มบน Ribbon) ช่วยให้ไม่ต้องเลื่อนหาชื่อเลเยอร์ในลิสต์ยาวๆ แค่คลิกวัตถุก็สลับเลเยอร์ทันที" },
+            { question: "73. หากต้องการตรวจสอบหรือตั้งค่า 'หน่วยวัด' ของไฟล์งาน (เช่น มิลลิเมตร, เมตร, นิ้ว) ต้องพิมพ์คำสั่งใด?", options: ["UNITS (UN)", "SCALE (SC)", "MEASURE (ME)", "FORMAT"], correctAnswer: 0, rationale: "คำสั่ง UNITS (UN) เปิดหน้าต่างตั้งค่ารูปแบบความละเอียดและหน่วยวัดของแบบ (Insertion Scale)" },
+            { question: "74. คำสั่งใดใช้ 'ลบเส้นที่ซ้อนทับกัน' หรือส่วนต่อทับกัน (Overlapping) เพื่อทำความสะอาดและลดขนาดไฟล์?", options: ["OVERKILL", "DELETE", "PURGE", "CLEAN"], correctAnswer: 0, rationale: "OVERKILL เป็นคำสั่งยอดเยี่ยมในการคลีนเส้นขยะที่วาดทับกันซ้ำซ้อนให้เหลือเส้นเดียว" },
+            { question: "75. คีย์ลัด F7 ทำหน้าที่อะไรบนหน้าจอทำงาน?", options: ["เปิด/ปิด ตารางจุด หรือตารางสี่เหลี่ยม (Grid Display)", "เปิด/ปิด พิกัด (Coordinates)", "เปิด/ปิด แถบเครื่องมือ", "จับจุดศูนย์กลาง"], correctAnswer: 0, rationale: "F7 ใช้ปิดเปิด Grid พื้นหลัง ซึ่งส่วนใหญ่เปิดไว้เพื่อกะระยะ หรือปิดให้จอโล่ง" },
+            { question: "76. คำสั่งใดใช้เปิดหน้าต่างที่แสดง 'ข้อมูลและคุณสมบัติอย่างละเอียด' ของวัตถุที่กำลังเลือก (เช่น เปลี่ยนสี, เปลี่ยนเลเยอร์, ดูความยาว, ดูพื้นที่)?", options: ["PROPERTIES (PR หรือ Ctrl+1)", "DETAILS", "INQUIRY", "LIST (LI)"], correctAnswer: 0, rationale: "หน้าต่าง Properties (Ctrl+1) เป็นพาเลตสำคัญมากในการแก้ไขรายละเอียดเชิงลึกของวัตถุทุกชนิด" },
+            { question: "77. หากมีไฟล์นามสกุล .pdf และต้องการนำเข้ามาวางอ้างอิงเป็นลายเส้นพื้นหลังใน AutoCAD ควรใช้คำสั่งหมวดใด?", options: ["PDFATTACH (กลุ่มคำสั่ง Reference)", "IMPORT", "INSERT BLOCK", "OPEN"], correctAnswer: 0, rationale: "PDFATTACH (หรือ XREF) ใช้สำหรับนำไฟล์ PDF หรือรูปภาพเข้ามา 'อิง' ในแบบ โดยไม่ทำให้ไฟล์ CAD ใหญ่เกินไป" },
+            { question: "78. คีย์ลัด F10 ทำหน้าที่เปิด/ปิดโหมดใด ซึ่งช่วยแสดงเส้นประนำทางตามองศาที่เรากำหนดได้ (เช่น ล็อคเส้นนำทางทุกๆ 45 องศา)?", options: ["Polar Tracking", "Ortho Mode", "Dynamic Input", "Object Snap Tracking (F11)"], correctAnswer: 0, rationale: "Polar Tracking (F10) ยืดหยุ่นกว่า Ortho (F8) เพราะยอมให้เฉียงตามมุมองศาที่ตั้งไว้ได้" },
+            { question: "79. คำสั่งใดใช้สำหรับสร้าง 'ตาราง' (ที่มีลักษณะคล้าย Excel) ภายในพื้นที่แบบของ AutoCAD?", options: ["TABLE (TB)", "GRID", "EXCEL", "SCHEDULE"], correctAnswer: 0, rationale: "TABLE (TB) สร้างตารางที่สามารถกรอกข้อความและใส่สูตรคำนวณพื้นฐานได้" },
+            { question: "80. หากใช้งานอยู่แล้วไฟดับ หรือโปรแกรมปิดตัวลงกะทันหัน (Crash) เมื่อเปิดโปรแกรมขึ้นมาใหม่ ควรไปกู้คืนไฟล์งานที่เครื่องมือใด?", options: ["Drawing Recovery Manager", "Recycle Bin", "Backup Center", "Temp Folder"], correctAnswer: 0, rationale: "Drawing Recovery Manager จะเด้งขึ้นมาด้านซ้ายมืออัตโนมัติ (หรือใช้คำสั่ง DRAWINGRECOVERY) เพื่อรวมไฟล์ Autosave และ Backup ล่าสุดให้เรากู้คืน" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+        let currentOptions = [];
+
+        // Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const questionTracker = document.getElementById('question-tracker');
+        const scoreTracker = document.getElementById('score-tracker');
+        const progressBar = document.getElementById('progress-bar');
+
+        function shuffleOptions(question) {
+            // Keep track of which option text was correct (at index 0 in source data)
+            let options = question.options.map((text, index) => ({ 
+                text: text, 
+                isCorrect: index === question.correctAnswer 
+            }));
+            
+            // Fisher-Yates shuffle
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            return options;
+        }
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            quizScreen.classList.add('fade-in');
+            currentQuestionIndex = 0;
+            score = 0;
+            updateScore();
+            loadQuestion();
+        }
+
+        function updateScore() {
+            scoreTracker.innerText = score;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            questionTracker.innerText = `ข้อที่ ${currentQuestionIndex + 1} / ${quizData.length}`;
+        }
+
+        function loadQuestion() {
+            hasAnswered = false;
+            nextBtn.classList.add('hidden');
+            feedbackContainer.classList.add('hidden');
+            optionsContainer.innerHTML = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // เลื่อนจอกลับขึ้นบนเมื่อเปลี่ยนข้อ
+            
+            const q = quizData[currentQuestionIndex];
+            updateProgress();
+            
+            // Format question text (highlighting specific keywords if any)
+            questionText.innerHTML = q.question.replace(/'(.*?)'/g, "<span class='text-indigo-600 font-bold'>'$1'</span>");
+            
+            currentOptions = shuffleOptions(q);
+
+            currentOptions.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = `<span class="inline-block w-8 h-8 rounded-full bg-slate-100 text-slate-600 font-bold flex items-center justify-center mr-3 group-hover:bg-indigo-100 group-hover:text-indigo-600 transition-colors">${String.fromCharCode(65 + index)}</span> <span class="text-left">${option.text}</span>`;
+                button.className = "group w-full flex items-center p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 transition-all duration-200 text-slate-700 font-medium text-lg shadow-sm hover:shadow-md outline-none focus:ring-4 focus:ring-indigo-100";
+                button.onclick = () => selectOption(index, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(index, selectedButton) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+
+            const isCorrect = currentOptions[index].isCorrect;
+            const buttons = optionsContainer.children;
+
+            // Handle styling for all buttons
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                buttons[i].classList.remove('hover:border-indigo-500', 'hover:bg-indigo-50/50', 'hover:shadow-md');
+                buttons[i].classList.add('cursor-default', 'opacity-80');
+                
+                const circle = buttons[i].querySelector('span:first-child');
+
+                if (currentOptions[i].isCorrect) {
+                    buttons[i].classList.replace('border-slate-200', 'border-emerald-500');
+                    buttons[i].classList.add('bg-emerald-50', 'text-emerald-900', 'shadow-md', 'opacity-100');
+                    circle.classList.replace('bg-slate-100', 'bg-emerald-500');
+                    circle.classList.replace('text-slate-600', 'text-white');
+                    circle.innerHTML = '✓';
+                } else if (i === index && !isCorrect) {
+                    buttons[i].classList.replace('border-slate-200', 'border-rose-500');
+                    buttons[i].classList.add('bg-rose-50', 'text-rose-900', 'opacity-100');
+                    circle.classList.replace('bg-slate-100', 'bg-rose-500');
+                    circle.classList.replace('text-slate-600', 'text-white');
+                    circle.innerHTML = '✕';
+                }
+            }
+
+            if (isCorrect) {
+                score++;
+                updateScore();
+                feedbackContainer.innerHTML = `
+                    <div class="flex items-start text-emerald-800">
+                        <svg class="w-6 h-6 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div><strong class="font-bold text-lg block mb-1">ถูกต้อง!</strong> ${quizData[currentQuestionIndex].rationale}</div>
+                    </div>`;
+                feedbackContainer.className = "p-5 rounded-2xl mt-6 text-base font-medium border border-emerald-200 bg-emerald-50 block fade-in";
+            } else {
+                const correctText = currentOptions.find(o => o.isCorrect).text;
+                feedbackContainer.innerHTML = `
+                    <div class="flex items-start text-rose-800">
+                        <svg class="w-6 h-6 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <strong class="font-bold text-lg block mb-1">ผิดครับ!</strong> 
+                            คำตอบที่ถูกต้องคือ: <span class="font-bold underline">${correctText}</span><br>
+                            <span class="text-rose-700/80 text-sm mt-2 block border-t border-rose-200 pt-2">${quizData[currentQuestionIndex].rationale}</span>
+                        </div>
+                    </div>`;
+                feedbackContainer.className = "p-5 rounded-2xl mt-6 text-base font-medium border border-rose-200 bg-rose-50 block fade-in";
+            }
+
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                // Trigger reflow to restart animation
+                quizScreen.classList.remove('fade-in');
+                void quizScreen.offsetWidth; 
+                quizScreen.classList.add('fade-in');
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            const finalScoreEl = document.getElementById('final-score');
+            const circle = document.getElementById('score-circle');
+            
+            // Animate score counter
+            let startCount = 0;
+            const duration = 1500;
+            const step = duration / score;
+            
+            if (score > 0) {
+                const counter = setInterval(() => {
+                    startCount++;
+                    finalScoreEl.innerText = startCount;
+                    if (startCount === score) clearInterval(counter);
+                }, step);
+            } else {
+                finalScoreEl.innerText = 0;
+            }
+
+            // Animate circle progress
+            setTimeout(() => {
+                const percentage = (score / quizData.length) * 100;
+                circle.style.strokeDasharray = `${percentage}, 100`;
+            }, 100);
+            
+            // Result logic
+            const resultTitle = document.getElementById('result-message');
+            const resultSub = document.getElementById('result-submessage');
+            
+            if (score === 80) {
+                resultTitle.innerText = "ยอดเยี่ยมมาก! ปรมาจารย์ AutoCAD 🏆";
+                resultSub.innerText = "คุณตอบถูกทุกข้อ! ทักษะของคุณอยู่ในระดับสุดยอด พร้อมลุยทุกโปรเจกต์";
+            } else if (score >= 64) { // 80%
+                resultTitle.innerText = "เก่งมาก! พื้นฐานคุณแน่นระดับมืออาชีพ 👏";
+                resultSub.innerText = `คุณทำคะแนนได้ดีเยี่ยม (คิดเป็น ${(score/80*100).toFixed(0)}%) แสดงว่าคุ้นเคยกับคำสั่งเป็นอย่างดี`;
+            } else if (score >= 40) { // 50%
+                resultTitle.innerText = "ทำได้ดีครับ! แต่ยังพัฒนาได้อีก ✌️";
+                resultSub.innerText = "คุณมีความรู้เบื้องต้นที่ดี ลองทบทวนคำสั่งหมวดที่ผิดบ่อยๆ จะช่วยให้ทำงานไวขึ้นครับ";
+            } else {
+                resultTitle.innerText = "ต้องฝึกฝนเพิ่มเติมอีกนิด สู้ๆ ครับ! 💪";
+                resultSub.innerText = "AutoCAD ต้องอาศัยการจำคีย์ลัดและฝึกวาดบ่อยๆ ลองทบทวนแล้วกลับมาทดสอบใหม่นะ";
+            }
+        }
+
+        function resetQuiz() {
+            // Reset UI for replay
+            document.getElementById('score-circle').style.strokeDasharray = "0, 100";
+            startQuiz();
+        }
+    </script>
+</body>
+</html>
